@@ -1,6 +1,7 @@
 package CarmineGargiulo.Progetto_Settimana_18.entities;
 
 import CarmineGargiulo.Progetto_Settimana_18.enums.TripState;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,6 +29,10 @@ public class Trip {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TripState state;
+    @OneToOne(mappedBy = "trip")
+    @JsonIgnoreProperties("trip")
+    @Setter(AccessLevel.NONE)
+    private Booking booking;
 
     public Trip(String destination, LocalDate date) {
         this.destination = destination;

@@ -1,11 +1,13 @@
 package CarmineGargiulo.Progetto_Settimana_18.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -23,6 +25,10 @@ public class Employee {
     private String username, name, surname, email;
     @Column(name = "avatar_url", nullable = false)
     private String avatarUrl;
+    @OneToMany(mappedBy = "employee")
+    @Setter(AccessLevel.NONE)
+    @JsonIgnoreProperties("employee")
+    private List<Booking> bookingList;
 
     public Employee(String username, String name, String surname, String email) {
         this.username = username;
