@@ -7,6 +7,7 @@ import CarmineGargiulo.Progetto_Settimana_18.services.TripsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ public class TripsController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Trip saveTrip(@RequestBody @Validated TripDTO body, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             throw new BadRequestException(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining()));
@@ -48,7 +50,8 @@ public class TripsController {
     }
 
     @DeleteMapping("/{tripId}")
-    public void deleteTrip(UUID tripId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTrip(@PathVariable UUID tripId) {
         tripsService.findTripByIdAndDelete(tripId);
     }
 

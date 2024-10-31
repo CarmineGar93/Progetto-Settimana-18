@@ -13,5 +13,4 @@ public record TripDTO(
         String date,
         @Pattern(regexp = "IN_PROGRESS|COMPLETED", message = "State must be IN_PROGESS or COMPLETED")
         String state) {
-    //TODO insert validation
 }

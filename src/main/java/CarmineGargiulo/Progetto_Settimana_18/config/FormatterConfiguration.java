@@ -23,4 +23,9 @@ public class FormatterConfiguration {
     public DateTimeFormatter getFormatter2() {
         return DateTimeFormatter.ofPattern("yyyy-MM-dd");
     }
+
+    @Bean
+    public DateTimeFormatter getFormatter3() {
+        return DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    }
 }

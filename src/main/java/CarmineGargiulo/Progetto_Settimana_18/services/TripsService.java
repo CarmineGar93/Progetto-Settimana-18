@@ -40,14 +40,14 @@ public class TripsService {
     }
 
     public Trip findTripById(UUID tripId) {
-        return tripsRepository.findById(tripId).orElseThrow(() -> new NotFoundException(tripId));
+        return tripsRepository.findById(tripId).orElseThrow(() -> new NotFoundException(tripId, "trip"));
     }
 
     public Trip findTripByIdAndUpdate(UUID tripId, TripDTO body) {
         Trip searched = findTripById(tripId);
         searched.setDate(validateDate(body.date()));
         searched.setDestination(body.destination());
-        searched.setState(TripState.valueOf(body.state()));
+        if (body.state() != null) searched.setState(TripState.valueOf(body.state()));
         return tripsRepository.save(searched);
     }
 
