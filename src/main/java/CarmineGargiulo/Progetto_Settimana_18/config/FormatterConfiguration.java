@@ -9,7 +9,7 @@ import java.util.Locale;
 @Configuration
 public class FormatterConfiguration {
     @Bean
-    public DateTimeFormatter getStringoneFormatter() {
+    public DateTimeFormatter getBigStringFormatter() {
         return DateTimeFormatter.ofPattern("EEE MMM dd yyyy HH:mm:ss 'GMT'Z '('zzzz')'",
                 Locale.ENGLISH);
     }
