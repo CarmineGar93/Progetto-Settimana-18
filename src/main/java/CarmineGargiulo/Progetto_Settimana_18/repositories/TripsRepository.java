@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface TripsRepository extends JpaRepository<Trip, UUID> {
+
 }

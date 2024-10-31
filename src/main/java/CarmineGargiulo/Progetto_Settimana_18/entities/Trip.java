@@ -34,9 +34,8 @@ public class Trip {
     @Setter(AccessLevel.NONE)
     private Booking booking;
 
-    public Trip(String destination, LocalDate date) {
+    public Trip(String destination) {
         this.destination = destination;
-        this.date = date;
         this.state = TripState.IN_PROGRAM;
     }
 
