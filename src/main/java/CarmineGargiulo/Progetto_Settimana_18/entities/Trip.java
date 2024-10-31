@@ -35,5 +35,11 @@ public class Trip {
         this.state = TripState.IN_PROGRAM;
     }
 
-
+    @Override
+    public String toString() {
+        return "Trip = id: " + tripId +
+                ", destination: " + destination +
+                ", date: " + date +
+                ", state: " + state;
+    }
 }
