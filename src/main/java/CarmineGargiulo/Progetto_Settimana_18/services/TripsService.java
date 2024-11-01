@@ -2,7 +2,6 @@ package CarmineGargiulo.Progetto_Settimana_18.services;
 
 import CarmineGargiulo.Progetto_Settimana_18.dto.TripDTO;
 import CarmineGargiulo.Progetto_Settimana_18.entities.Trip;
-import CarmineGargiulo.Progetto_Settimana_18.enums.TripState;
 import CarmineGargiulo.Progetto_Settimana_18.exceptions.BadRequestException;
 import CarmineGargiulo.Progetto_Settimana_18.exceptions.NotFoundException;
 import CarmineGargiulo.Progetto_Settimana_18.repositories.TripsRepository;
@@ -47,7 +46,6 @@ public class TripsService {
         Trip searched = findTripById(tripId);
         searched.setDate(validateDate(body.date()));
         searched.setDestination(body.destination());
-        if (body.state() != null) searched.setState(TripState.valueOf(body.state()));
         return tripsRepository.save(searched);
     }
 

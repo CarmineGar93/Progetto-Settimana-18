@@ -2,7 +2,6 @@ package CarmineGargiulo.Progetto_Settimana_18.dto;
 
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record TripDTO(
@@ -10,7 +9,7 @@ public record TripDTO(
         @Size(min = 3, message = "Size must have more than two characters")
         String destination,
         @NotEmpty(message = "Date must be provided")
-        String date,
-        @Pattern(regexp = "IN_PROGRESS|COMPLETED", message = "State must be IN_PROGESS or COMPLETED")
-        String state) {
+        String date
+        /*@Pattern(regexp = "IN_PROGRESS|COMPLETED", message = "State must be IN_PROGESS or COMPLETED")
+        String state*/) {
 }
