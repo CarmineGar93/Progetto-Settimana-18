@@ -5,9 +5,13 @@ import CarmineGargiulo.Progetto_Settimana_18.entities.Employee;
 import CarmineGargiulo.Progetto_Settimana_18.exceptions.BadRequestException;
 import CarmineGargiulo.Progetto_Settimana_18.exceptions.NotFoundException;
 import CarmineGargiulo.Progetto_Settimana_18.repositories.EmployeesRepository;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +19,9 @@ import java.util.UUID;
 public class EmployeesService {
     @Autowired
     private EmployeesRepository employeesRepository;
+
+    @Autowired
+    private Cloudinary cloudinary;
 
     public List<Employee> findAllEmployees() {
         return employeesRepository.findAll();
@@ -55,6 +62,17 @@ public class EmployeesService {
     public void findEmployeeByIdAndDelete(UUID employeeId) {
         Employee searched = findEmployeeById(employeeId);
         employeesRepository.delete(searched);
+    }
+
+    public void uploadAvatar(MultipartFile file, UUID employeeId) {
+        try {
+            Employee searched = findEmployeeById(employeeId);
+            String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+            searched.setAvatarUrl(url);
+            employeesRepository.save(searched);
+        } catch (IOException e) {
+            throw new BadRequestException("File not supported");
+        }
     }
 
 }
