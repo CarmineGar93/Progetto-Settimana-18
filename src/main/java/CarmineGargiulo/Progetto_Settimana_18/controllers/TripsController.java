@@ -32,7 +32,7 @@ public class TripsController {
     @ResponseStatus(HttpStatus.CREATED)
     public Trip saveTrip(@RequestBody @Validated TripDTO body, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            throw new BadRequestException(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining()));
+            throw new BadRequestException(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(", ")));
         return tripsService.saveTrip(body);
     }
 
@@ -45,7 +45,7 @@ public class TripsController {
     public Trip modifyTrip(@PathVariable UUID tripId, @RequestBody @Validated TripDTO body,
                            BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            throw new BadRequestException(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining()));
+            throw new BadRequestException(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(", ")));
         return tripsService.findTripByIdAndUpdate(tripId, body);
     }
 

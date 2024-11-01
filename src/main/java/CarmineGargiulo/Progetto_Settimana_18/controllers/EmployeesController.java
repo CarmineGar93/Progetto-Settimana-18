@@ -6,6 +6,7 @@ import CarmineGargiulo.Progetto_Settimana_18.exceptions.BadRequestException;
 import CarmineGargiulo.Progetto_Settimana_18.services.EmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +27,11 @@ public class EmployeesController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Employee saveEmployee(@RequestBody @Validated EmployeeDTO body, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String message =
-                    bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
+                    bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(", "));
             throw new BadRequestException(message);
         }
         return employeesService.saveEmployee(body);
@@ -45,13 +47,14 @@ public class EmployeesController {
                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String message =
-                    bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
+                    bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(", "));
             throw new BadRequestException(message);
         }
         return employeesService.findEmployeeByIdAndUpdate(employeeId, body);
     }
 
     @DeleteMapping("/{employeeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEmployee(@PathVariable UUID employeeId) {
         employeesService.findEmployeeByIdAndDelete(employeeId);
     }

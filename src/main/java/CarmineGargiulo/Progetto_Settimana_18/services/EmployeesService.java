@@ -34,6 +34,10 @@ public class EmployeesService {
 
     public Employee findEmployeeByIdAndUpdate(UUID employeeId, EmployeeDTO body) {
         Employee searched = findEmployeeById(employeeId);
+        if (!searched.getSurname().equals(body.surname()) || !searched.getName().equals(body.name())) {
+            if (searched.getAvatarUrl().equals("https://ui-avatars.com/api/?name=" + searched.getName() + "+" + searched.getSurname()))
+                searched.setAvatarUrl("https://ui-avatars.com/api/?name=" + body.name() + "+" + body.surname());
+        }
         if (!body.username().equals(searched.getUsername())) {
             if (employeesRepository.existsByUsername(body.username()))
                 throw new BadRequestException("Username already in use");
