@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 public record TripDTO(
         @NotEmpty(message = "Destination must be provided")
-        @Size(min = 3, message = "Size must have more than two characters")
+        @Size(min = 3, message = "Destination must have more than two characters")
         String destination,
         @NotEmpty(message = "Date must be provided")
         String date

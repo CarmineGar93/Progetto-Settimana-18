@@ -39,7 +39,7 @@ public class TripsService {
     }
 
     public Trip findTripById(UUID tripId) {
-        return tripsRepository.findById(tripId).orElseThrow(() -> new NotFoundException(tripId, "trip"));
+        return tripsRepository.findById(tripId).orElseThrow(() -> new NotFoundException(tripId, "Trip"));
     }
 
     public Trip findTripByIdAndUpdate(UUID tripId, TripDTO body) {
