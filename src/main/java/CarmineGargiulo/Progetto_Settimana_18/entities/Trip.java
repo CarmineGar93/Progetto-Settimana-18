@@ -29,7 +29,7 @@ public class Trip {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TripStatus status;
-    @OneToOne(mappedBy = "trip")
+    @OneToOne(mappedBy = "trip", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Setter(AccessLevel.NONE)
     private Booking booking;
