@@ -25,7 +25,12 @@ public class BookingsService {
     @Autowired
     private TripsService tripsService;
 
-    public Page<Booking> findAllBookings(int page, int size, String sortBy) {
+    public Page<Booking> findAllBookings(int page, int size, String sortBy, UUID employeeId) {
+        if (employeeId != null) {
+            Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+            Employee employee = employeesService.findEmployeeById(employeeId);
+            return bookingsRepository.findByEmployee(employee, pageable);
+        }
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return bookingsRepository.findAll(pageable);
     }
@@ -34,11 +39,12 @@ public class BookingsService {
         Employee employee = employeesService.findEmployeeById(body.employeeId());
         Trip trip = tripsService.findTripById(body.tripId());
         if (bookingsRepository.existsByTrip(trip))
-            throw new BadRequestException("Trip already assigned to another employee");
+            throw new BadRequestException("Trip already assigned");
         if (bookingsRepository.checkIfEmployeeIsNotAvailable(employee, trip.getDate()))
             throw new BadRequestException("Employee unavailable for date's trip");
         Booking booking = new Booking(trip, employee);
         if (body.preferences() != null) booking.setPreferences(body.preferences());
+        else booking.setPreferences("N/A");
         return bookingsRepository.save(booking);
     }
 

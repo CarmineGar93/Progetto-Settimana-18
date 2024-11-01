@@ -7,6 +7,7 @@ import CarmineGargiulo.Progetto_Settimana_18.services.BookingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +21,17 @@ public class BookingsController {
     @Autowired
     private BookingsService bookingsService;
 
+    
     @GetMapping
     public Page<Booking> getAllBookings(@RequestParam(defaultValue = "0") int page,
                                         @RequestParam(defaultValue = "10") int size,
-                                        @RequestParam(defaultValue = "trip.date") String sortBy) {
-        return bookingsService.findAllBookings(page, size, sortBy);
+                                        @RequestParam(defaultValue = "trip.date") String sortBy,
+                                        @RequestParam(required = false) UUID employeeId) {
+        return bookingsService.findAllBookings(page, size, sortBy, employeeId);
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Booking saveBooking(@RequestBody @Validated BookingDTO body, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String message =
@@ -43,6 +47,7 @@ public class BookingsController {
     }
 
     @DeleteMapping("/{bookingId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBooking(@PathVariable UUID bookingId) {
         bookingsService.findBookingByIdAndDelete(bookingId);
     }

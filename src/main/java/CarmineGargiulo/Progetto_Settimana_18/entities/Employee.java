@@ -1,6 +1,6 @@
 package CarmineGargiulo.Progetto_Settimana_18.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -27,7 +27,7 @@ public class Employee {
     private String avatarUrl;
     @OneToMany(mappedBy = "employee")
     @Setter(AccessLevel.NONE)
-    @JsonIgnoreProperties("employee")
+    @JsonIgnore
     private List<Booking> bookingList;
 
     public Employee(String username, String name, String surname, String email) {

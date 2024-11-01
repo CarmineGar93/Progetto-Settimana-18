@@ -1,7 +1,9 @@
 package CarmineGargiulo.Progetto_Settimana_18.services;
 
+import CarmineGargiulo.Progetto_Settimana_18.dto.StatusDTO;
 import CarmineGargiulo.Progetto_Settimana_18.dto.TripDTO;
 import CarmineGargiulo.Progetto_Settimana_18.entities.Trip;
+import CarmineGargiulo.Progetto_Settimana_18.enums.TripStatus;
 import CarmineGargiulo.Progetto_Settimana_18.exceptions.BadRequestException;
 import CarmineGargiulo.Progetto_Settimana_18.exceptions.NotFoundException;
 import CarmineGargiulo.Progetto_Settimana_18.repositories.TripsRepository;
@@ -52,6 +54,15 @@ public class TripsService {
     public void findTripByIdAndDelete(UUID tripId) {
         Trip searched = findTripById(tripId);
         tripsRepository.delete(searched);
+    }
+
+    public Trip findByIdAndUpdateStatus(UUID tripId, StatusDTO body) {
+        Trip searched = findTripById(tripId);
+        if (TripStatus.valueOf(body.status()).equals(searched.getStatus()))
+            throw new BadRequestException("You provided the same status of the actual one");
+        System.out.println(TripStatus.valueOf(body.status()));
+        searched.setStatus(TripStatus.valueOf(body.status()));
+        return tripsRepository.save(searched);
     }
 
     private LocalDate validateDate(String date) {

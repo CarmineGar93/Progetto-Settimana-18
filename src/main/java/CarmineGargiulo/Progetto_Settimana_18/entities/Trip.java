@@ -1,7 +1,7 @@
 package CarmineGargiulo.Progetto_Settimana_18.entities;
 
-import CarmineGargiulo.Progetto_Settimana_18.enums.TripState;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import CarmineGargiulo.Progetto_Settimana_18.enums.TripStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,15 +28,15 @@ public class Trip {
     private LocalDate date;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private TripState state;
+    private TripStatus status;
     @OneToOne(mappedBy = "trip")
-    @JsonIgnoreProperties("trip")
+    @JsonIgnore
     @Setter(AccessLevel.NONE)
     private Booking booking;
 
     public Trip(String destination) {
         this.destination = destination;
-        this.state = TripState.IN_PROGRAM;
+        this.status = TripStatus.IN_PROGRAM;
     }
 
     @Override
@@ -44,6 +44,6 @@ public class Trip {
         return "Trip = id: " + tripId +
                 ", destination: " + destination +
                 ", date: " + date +
-                ", state: " + state;
+                ", status: " + status;
     }
 }

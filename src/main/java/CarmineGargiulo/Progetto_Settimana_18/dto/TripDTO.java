@@ -11,5 +11,5 @@ public record TripDTO(
         @NotEmpty(message = "Date must be provided")
         String date
         /*@Pattern(regexp = "IN_PROGRESS|COMPLETED", message = "State must be IN_PROGESS or COMPLETED")
-        String state*/) {
+        String status*/) {
 }

@@ -1,5 +1,6 @@
 package CarmineGargiulo.Progetto_Settimana_18.controllers;
 
+import CarmineGargiulo.Progetto_Settimana_18.dto.StatusDTO;
 import CarmineGargiulo.Progetto_Settimana_18.dto.TripDTO;
 import CarmineGargiulo.Progetto_Settimana_18.entities.Trip;
 import CarmineGargiulo.Progetto_Settimana_18.exceptions.BadRequestException;
@@ -34,6 +35,14 @@ public class TripsController {
         if (bindingResult.hasErrors())
             throw new BadRequestException(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(", ")));
         return tripsService.saveTrip(body);
+    }
+
+    @PatchMapping("/{tripId}/status")
+    public Trip modifyStatus(@PathVariable UUID tripId, @RequestBody @Validated StatusDTO body,
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            throw new BadRequestException(bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(", ")));
+        return tripsService.findByIdAndUpdateStatus(tripId, body);
     }
 
     @GetMapping("/{tripId}")

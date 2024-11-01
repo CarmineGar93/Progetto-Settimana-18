@@ -22,6 +22,7 @@ public class Booking {
     private UUID bookingId;
     @Column(name = "request_date", nullable = false)
     private LocalDate requestDate;
+    @Column(nullable = false)
     private String preferences;
     @OneToOne
     @JoinColumn(name = "trip_id", nullable = false)
