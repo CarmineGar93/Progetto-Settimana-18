@@ -46,6 +46,9 @@ public class TripsService {
 
     public Trip findTripByIdAndUpdate(UUID tripId, TripDTO body) {
         Trip searched = findTripById(tripId);
+        if (searched.getBooking() != null)
+            throw new BadRequestException("Trip assigned to a booking. In order to modify the trip cancel the booking" +
+                    " first");
         if (searched.getDate().isBefore(LocalDate.now()))
             throw new BadRequestException("Cannot modify a trip that is past in time");
         searched.setDate(validateDate(body.date()));
