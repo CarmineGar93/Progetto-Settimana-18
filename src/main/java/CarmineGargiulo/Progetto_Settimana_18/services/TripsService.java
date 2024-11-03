@@ -46,6 +46,8 @@ public class TripsService {
 
     public Trip findTripByIdAndUpdate(UUID tripId, TripDTO body) {
         Trip searched = findTripById(tripId);
+        if (searched.getDate().isBefore(LocalDate.now()))
+            throw new BadRequestException("Cannot modify a trip that is past in time");
         searched.setDate(validateDate(body.date()));
         searched.setDestination(body.destination());
         return tripsRepository.save(searched);
@@ -59,7 +61,7 @@ public class TripsService {
     public Trip findByIdAndUpdateStatus(UUID tripId, StatusDTO body) {
         Trip searched = findTripById(tripId);
         if (TripStatus.valueOf(body.status()).equals(searched.getStatus()))
-            throw new BadRequestException("You provided the same status of the actual one");
+            throw new BadRequestException("Cannot provide the same status of the actual one");
         System.out.println(TripStatus.valueOf(body.status()));
         searched.setStatus(TripStatus.valueOf(body.status()));
         return tripsRepository.save(searched);

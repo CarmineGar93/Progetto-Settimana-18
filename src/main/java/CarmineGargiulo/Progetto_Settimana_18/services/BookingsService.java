@@ -41,7 +41,7 @@ public class BookingsService {
         if (bookingsRepository.existsByTrip(trip))
             throw new BadRequestException("Trip already assigned");
         if (bookingsRepository.checkIfEmployeeIsNotAvailable(employee, trip.getDate()))
-            throw new BadRequestException("Employee unavailable for date's trip");
+            throw new BadRequestException("Employee unavailable for trip's date");
         Booking booking = new Booking(trip, employee);
         if (body.preferences() != null) booking.setPreferences(body.preferences());
         else booking.setPreferences("N/A");
@@ -52,8 +52,8 @@ public class BookingsService {
         return bookingsRepository.findById(bookingId).orElseThrow(() -> new NotFoundException(bookingId, "booking"));
     }
 
-    public void findBookingByIdAndDelete(UUID boookingId) {
-        Booking booking = findBookingById(boookingId);
+    public void findBookingByIdAndDelete(UUID bookingId) {
+        Booking booking = findBookingById(bookingId);
         bookingsRepository.delete(booking);
     }
 }

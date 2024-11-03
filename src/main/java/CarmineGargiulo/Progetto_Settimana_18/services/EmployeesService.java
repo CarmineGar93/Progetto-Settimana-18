@@ -71,7 +71,7 @@ public class EmployeesService {
             searched.setAvatarUrl(url);
             employeesRepository.save(searched);
         } catch (IOException e) {
-            throw new BadRequestException("File not supported");
+            throw new BadRequestException("File provided not supported");
         }
     }
 

@@ -14,7 +14,8 @@ public record EmployeeDTO(
         @NotEmpty(message = "Surname must be provided")
         @Size(min = 3, max = 40, message = "Surname size must be between 3 and 40")
         String surname,
+        @NotEmpty(message = "Email must be provided")
         @Email(message = "Email not valid")
         String email) {
-    
+
 }
